@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { ErrorSend } from '../utils/errorHandle.js';
 
 class SchoolController {
-    private db: any;
+    private db: any
 
     constructor(db: any) {
         this.db = db;
