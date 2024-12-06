@@ -1,15 +1,9 @@
-version: "3.8"
-
+version: "3.1"
 services:
   backend:
     image: krish124/educaseindiaassignment:latest
-    container_name: backend
+    restart: on-failure
     ports:
       - "5000:5000"
     environment:
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-    networks:
-      - app-network
+      NODE_ENV: production
