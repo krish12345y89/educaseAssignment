@@ -13,6 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install Node.js 18
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18"
+
+
       - name: Make .env file for Backend
         run: |
           echo -e "DB_HOST=${{ secrets.DB_HOST }}\nDB_USER=${{ secrets.DB_USER }}\nDB_PASSWORD=${{ secrets.DB_PASS }}\nDB_NAME=${{ secrets.DB_NAME }}" > ./.env
@@ -22,10 +28,16 @@ jobs:
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      
+      - name:  Build React app
+        run: |
+          cd ./client
+          npm install
+          npm run build
 
       - name: Build Backend Docker Image
         run: docker build -t krish124/educaseindiaassignment:latest .
-
+ 
       - name: Publish Backend image to Docker Hub
         run: docker push krish124/educaseindiaassignment:latest
 
