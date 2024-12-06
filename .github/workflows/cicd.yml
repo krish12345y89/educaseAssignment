@@ -34,6 +34,11 @@ jobs:
           npm install
           npm run build
 
+      - name:  Test the application
+        run: |
+          npm install
+          npm run test
+
       - name: Build Backend Docker Image
         run: docker build -t krish124/educaseindiaassignment:latest .
  
