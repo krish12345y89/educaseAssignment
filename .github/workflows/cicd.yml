@@ -10,24 +10,31 @@ jobs:
     runs-on: ubuntu-latest
     environment: backend
     steps:
+      # Checkout the source code
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # Install Node.js
       - name: Install Node.js 18
         uses: actions/setup-node@v2
         with:
           node-version: "18"
 
+      # Create .env file for Backend
       - name: Make .env file for Backend
         run: |
           echo -e "DB_HOST=${{ secrets.DB_HOST }}\nDB_USER=${{ secrets.DB_USER }}\nDB_PASSWORD=${{ secrets.DB_PASS }}\nDB_NAME=${{ secrets.DB_NAME }}" > ./.env
-          
+          cat ./.env # Optional: Display .env for verification, omit if sensitive
+
+      # Login to Docker Hub
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
+      # Build Docker Image
       - name: Build Backend Docker Image
         run: docker build -t krish124/educaseindiaassignment:latest .
 
+      # Push Docker Image to Private Repository
       - name: Publish Backend image to Docker Hub
         run: docker push krish124/educaseindiaassignment:latest
 
@@ -35,18 +42,24 @@ jobs:
     runs-on: self-hosted
     needs: backend
     steps:
+      # Checkout the source code
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Login to Docker Hub
-        run: sudo docker login -u "${{ secrets.DOCKER_USERNAME }}" -p ${{ secrets.DOCKER_PASSWORD }} --force
 
+      # Login to Docker Hub
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # Deploy the application using docker-compose
       - name: Deploy to production
         run: |
-          # Ensure docker-compose.yml is in the root directory or specify the correct path
+          # Ensure docker-compose.yml exists in the current directory
+          ls -l docker-compose.yml
           sudo docker-compose pull
           sudo docker-compose up -d
           sudo docker image prune -f --filter "until=24h"
 
+      # Notify on Successful Deployment
       - name: Notify on Success
         if: success()
         run: echo "🎉 Deployment successful!"
