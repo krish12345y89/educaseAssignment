@@ -37,7 +37,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        
       - name: Deploy to production
         run: |
           # Ensure docker-compose.yml is in the root directory or specify the correct path
