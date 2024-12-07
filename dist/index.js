@@ -7,7 +7,7 @@ import { connectDb } from "./utils/db.js";
 import { errorMiddleware } from "./utils/errorHandle.js";
 config();
 const app = express();
-const port = parseInt(process.env.PORT, 10) || 5000;
+const port = parseInt(process.env.PORT, 10) || 5001;
 app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());

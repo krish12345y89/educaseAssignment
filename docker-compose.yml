@@ -5,7 +5,7 @@ services:
     image: krish124/educaseindiaassignment:latest
     restart: on-failure
     ports:
-      - 5000:5000
+      - 5001:5001
     environment:
       NODE_ENV: production
     volumes:

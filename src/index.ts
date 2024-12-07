@@ -9,7 +9,7 @@ import { errorMiddleware } from "./utils/errorHandle.js";
 config();
 
 const app: Application = express();
-const port: number = parseInt(process.env.PORT as string, 10) || 5000;
+const port: number = parseInt(process.env.PORT as string, 10) || 5001;
 
 app.use(express.json());
 app.use(cors());
