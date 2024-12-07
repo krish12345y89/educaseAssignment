@@ -24,19 +24,16 @@ jobs:
       - name: Make .env file for Backend
         run: |
           echo -e "DB_HOST=${{ secrets.DB_HOST }}\nDB_USER=${{ secrets.DB_USER }}\nDB_PASSWORD=${{ secrets.DB_PASS }}\nDB_NAME=${{ secrets.DB_NAME }}" > ./.env
-          cat ./.env # Optional: Display .env for verification, omit if sensitive
 
       # Login to Docker Hub
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # Build Docker Image
-      - name: Build Backend Docker Image
-        run: docker build -t krish124/educaseindiaassignment:latest .
-
-      # Push Docker Image to Private Repository
-      - name: Publish Backend image to Docker Hub
-        run: docker push krish124/educaseindiaassignment:latest
+      # Build and Push Docker Image
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t krish124/educaseindiaassignment:latest .
+          docker push krish124/educaseindiaassignment:latest
 
   deploy:
     runs-on: self-hosted
@@ -46,16 +43,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Deploy the application using docker-compose
-      - name: Deploy to production
+      # Deploy with docker-compose
+      - name: Deploy Application
         run: |
-          # Ensure docker-compose.yml exists in the current directory
-          ls -l docker-compose.yml
           sudo docker-compose pull
           sudo docker-compose up -d
           sudo docker image prune -f --filter "until=24h"
 
-      # Notify on Successful Deployment
+      # Notify on Success
       - name: Notify on Success
         if: success()
         run: echo "🎉 Deployment successful!"
