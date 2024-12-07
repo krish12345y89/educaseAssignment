@@ -48,7 +48,7 @@ jobs:
 
       # Login to Docker Hub
       - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        run: echo "KRISH@12345y89" | docker login -u "krish124" --password-stdin
 
 
       # Deploy the application using docker-compose
