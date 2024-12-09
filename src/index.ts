@@ -17,8 +17,8 @@ app.use(bodyParser.json());
 
 const startServer = async () => {
     try {
-        const db = await connectDb();
-        app.locals.db = db; // Attach DB instance to app
+        const db = await connectDb()
+        app.locals.db = db; 
         app.use("/api", schoolRoutes(db)); // Pass DB to routes
         app.use(errorMiddleware);
 
