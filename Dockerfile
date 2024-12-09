@@ -10,8 +10,6 @@ RUN npm ci --production
 # Copy application files
 COPY . .
 
-# Build the application
-RUN npm run build
 
 # Expose port and define start command
 EXPOSE 5001
