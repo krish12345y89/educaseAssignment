@@ -5,11 +5,11 @@ WORKDIR /app
 
 # Install dependencies
 COPY package*.json . 
-RUN npm ci --production
-
+RUN npm ci 
 # Copy application files
 COPY . .
-
+RUN npm install --force
+RUN npm run build
 
 # Expose port and define start command
 EXPOSE 5001
