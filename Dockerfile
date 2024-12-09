@@ -4,8 +4,8 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install dependencies
-COPY package.json package-lock.json . 
-RUN npm install --production
+COPY package*.json . 
+RUN npm ci --production
 
 # Copy application files
 COPY . .
@@ -15,4 +15,4 @@ RUN npm run build
 
 # Expose port and define start command
 EXPOSE 5001
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]
