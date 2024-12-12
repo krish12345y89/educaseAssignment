@@ -48,7 +48,7 @@ jobs:
         run: |
           sudo docker-compose pull
           sudo docker-compose up -d
-          sudo docker image prune -f --filter "until=24h"
+          sudo docker image prune -a 
 
       # Notify on Success
       - name: Notify on Success
