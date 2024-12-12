@@ -15,10 +15,10 @@ jobs:
         uses: actions/checkout@v4
 
       # Install Node.js
-      - name: Install Node.js 18
+      - name: Install Node.js 23
         uses: actions/setup-node@v2
         with:
-          node-version: "18"
+          node-version: "23.3.0"
 
       # Create .env file for Backend
       - name: Make .env file for Backend
@@ -48,7 +48,7 @@ jobs:
         run: |
           sudo docker-compose pull
           sudo docker-compose up -d
-          sudo docker image prune -f --filter "until=24h"
+          sudo docker image prune -f 
 
       # Notify on Success
       - name: Notify on Success

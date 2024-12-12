@@ -1,9 +1,9 @@
-version: "3.8"
+version: "2.30.0"
 
 services:
   backend:
     image: krish124/educaseindiaassignment:latest
-    restart: on-failure
+    restart: never
     ports:
       - 5001:5001
     environment:
