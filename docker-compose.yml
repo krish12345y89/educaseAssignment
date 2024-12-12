@@ -3,7 +3,7 @@ version: "2.30.0"
 services:
   backend:
     image: krish124/educaseindiaassignment:latest
-    restart: never
+    restart: no
     ports:
       - 5001:5001
     environment:
