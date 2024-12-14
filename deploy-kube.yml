@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  # Unique key of the Deployment instance
+  name: edu-assignment
+spec:
+  # 3 Pods should exist at all times.
+  replicas: 0
+  selector:
+    matchLabels:
+      app: edu-assignment
+  template:
+    metadata:
+      labels:
+        # Apply this label to pods and default
+        # the Deployment label selector to this value
+        app: edu-assignment
+    spec:
+      containers:
+        - name: edu-assignment
+          image: krish124/educaseindiaassignment:latest
