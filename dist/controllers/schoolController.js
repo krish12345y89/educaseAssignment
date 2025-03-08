@@ -1,29 +1,27 @@
-import { ErrorSend } from '../utils/errorHandle.js';
 class SchoolController {
     constructor(db) {
         this.addSchool = async (req, res, next) => {
             try {
                 const { name, address, latitude, longitude } = req.body;
-                console.log(this.db);
-                const query = 'INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)';
+                const query = "INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)";
                 const [result] = await this.db.query(query, [name, address, latitude, longitude]);
-                res.status(201).json({
-                    message: 'School added successfully',
-                    schoolId: result.insertId,
-                });
+                res.status(201).json({ message: "School added successfully", schoolId: result.insertId });
             }
             catch (err) {
                 console.error(err);
-                next(new ErrorSend('Error adding school', 500, false, true));
+                res.status(500).json({ error: "Error adding school" });
             }
         };
         this.listSchools = async (req, res, next) => {
-            const { latitude, longitude } = req.query;
-            const query = 'SELECT * FROM schools';
             try {
+                const { latitude, longitude } = req.query;
+                if (!latitude || !longitude) {
+                    return res.status(400).json({ error: "Latitude and longitude required" });
+                }
+                const query = "SELECT * FROM schools";
                 const [schools] = await this.db.query(query);
                 const haversine = (lat1, lon1, lat2, lon2) => {
-                    const R = 6371; // Earth's radius in km
+                    const R = 6371; // Radius of Earth in km
                     const dLat = (lat2 - lat1) * (Math.PI / 180);
                     const dLon = (lon2 - lon1) * (Math.PI / 180);
                     const a = Math.sin(dLat / 2) ** 2 +
@@ -42,18 +40,18 @@ class SchoolController {
             }
             catch (err) {
                 console.error(err);
-                next(new ErrorSend('Error fetching schools', 500, false, true));
+                res.status(500).json({ error: "Error fetching schools" });
             }
         };
         this.getAllSchools = async (req, res, next) => {
-            const query = 'SELECT * FROM schools';
             try {
+                const query = "SELECT * FROM schools";
                 const [schools] = await this.db.query(query);
                 res.status(200).json({ schools });
             }
             catch (err) {
                 console.error(err);
-                next(new ErrorSend('Error fetching schools', 500, false, true));
+                res.status(500).json({ error: "Error fetching schools" });
             }
         };
         this.db = db;

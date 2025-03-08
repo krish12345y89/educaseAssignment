@@ -12,6 +12,7 @@ export const connectDb = async () => {
             user,
             password: pass,
             database,
+            ssl: { rejectUnauthorized: true }
         });
         console.log("Database connected successfully");
         return connection;
